@@ -1,5 +1,6 @@
 IMAGENAME = dcos-flink
 
+
 build: build-flink
 	docker build -t $(IMAGENAME) .
 
