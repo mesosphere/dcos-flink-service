@@ -3,10 +3,8 @@ FROM mesosphere/mesos:1.0.1-2.0.93.ubuntu1404
 # The base image contains java 7, but it has no environment variables set for it.
 ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64/jre
 
-RUN apt-get update \
-    && apt-get -y install curl \
-    && curl https://s3.amazonaws.com/flink-nightly/flink-1.2-SNAPSHOT-bin-hadoop2.tgz \
-    | tar -xz
+# Copy custom build to image.
+COPY flink/flink-dist/target/flink-1.2-SNAPSHOT-bin/ .
 
 COPY conf/ flink-1.2-SNAPSHOT/conf/
 WORKDIR flink-1.2-SNAPSHOT
