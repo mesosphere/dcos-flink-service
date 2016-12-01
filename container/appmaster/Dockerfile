@@ -9,6 +9,10 @@ COPY flink/flink-dist/target/flink-1.2-SNAPSHOT-bin/ .
 COPY conf/ flink-1.2-SNAPSHOT/conf/
 WORKDIR flink-1.2-SNAPSHOT
 
+# Those files are required to be inside the working directory.
+RUN ln -s conf/log4j.properties log4j.properties \
+    && ln -s conf/flink-conf.yaml flink-conf.yaml
+
 # Set up files that shall appear in the $MESOS_SANDBOX later. All these files will be symlinked there.
 RUN mkdir mesos_sandbox \
     && ln -s ../lib/flink-dist_2.10-1.2-SNAPSHOT.jar mesos_sandbox/flink.jar \
