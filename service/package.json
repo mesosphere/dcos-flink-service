@@ -2,7 +2,7 @@
     "packagingVersion": "3.0",
 
     "name": "flink",
-    "version": "1.2",
+    "version": "1.2.dev",
     "description": "Apache Flink® is an open source platform for distributed stream and batch data processing.",
     "framework": true,
     "website": "http://flink.apache.org/",
