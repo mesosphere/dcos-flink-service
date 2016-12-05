@@ -18,5 +18,17 @@
       "image": "{{resource.assets.container.docker.flink}}",
       "network": "HOST"
     }
-  }
+  },
+
+  "healthChecks": [
+    {
+      "protocol": "HTTP",
+      "path": "/",
+      "port": 8081,
+      "gracePeriodSeconds": 5,
+      "intervalSeconds": 60,
+      "timeoutSeconds": 10,
+      "maxConsecutiveFailures": 3
+    }
+  ]
 }
