@@ -1,0 +1,61 @@
+{
+  "type": "object",
+  "properties": {
+    "service": {
+      "description": "DC/OS Flink configuration properties",
+      "type": "object",
+      "properties": {
+        "name": {
+          "default": "flink",
+          "description": "The Flink TaskManager will register with Mesos with this as framework name. This service will be available at http://<dcos_url>/service/<name>/",
+          "type": "string"
+        },
+        "cpus": {
+          "default": 1,
+          "description": "CPU shares",
+          "minimum": 0.1,
+          "type": "number"
+        },
+        "mem": {
+          "default": 1024,
+          "description": "Memory (MB)",
+          "minimum": 1024,
+          "type": "number"
+        },
+        "role": {
+          "description": "The Flink Dispatcher will register with Mesos with this role.",
+          "type": "string",
+          "default": "*"
+        },
+        "user": {
+          "description": "Executors will run as this user.",
+          "type": "string",
+          "default": "root"
+        },
+        "session_id": {
+          "description": "Flink session ID.",
+          "type": "string",
+          "default": "default"
+        },
+        "slots": {
+          "description": "A processing slot allows Flink to execute a distributed DataSet transformation, such as a data source or a map-transformation. As a general recommendation, the number of available CPU cores is a good default.",
+          "type": "integer",
+          "default": 1,
+          "minimum": 1
+        },
+        "taskmanagers": {
+          "description": "Number of task managers to spawn.",
+          "type": "integer",
+          "default": 1,
+          "minimum": 1
+        },
+        "taskmanager_memory": {
+          "description": "Memory (MB) for each task manager.",
+          "type": "number",
+          "default": 1024,
+          "minimum": 256
+        }
+      }
+    }
+  }
+}

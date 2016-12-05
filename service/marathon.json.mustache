@@ -1,0 +1,23 @@
+{
+  "id": "{{service.name}}",
+  "cpus": {{service.cpus}},
+  "mem": {{service.mem}},
+
+  "env": {
+    "DCOS_SERVICE_NAME": "{{service.name}}",
+    "_CLIENT_TM_COUNT": "{{service.taskmanagers}}",
+    "_CLIENT_TM_MEMORY": "{{service.taskmanager_memory}}",
+    "_SLOTS": "{{service.slots}}",
+    "_CLIENT_USERNAME": "{{service.user}}",
+    "_CLIENT_USERNAME": "{{service.session_id}}"
+  },
+
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "{{resource.assets.container.docker.flink}}",
+      "network": "HOST",
+      "forcePullImage": true
+    }
+  }
+}
