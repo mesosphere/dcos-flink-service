@@ -2,7 +2,7 @@
   "assets": {
     "container": {
       "docker": {
-        "flink": "makman2/dcos-flink:v1.0"
+        "flink": "makman2/dcos-flink:v1.1"
       }
     }
   },
