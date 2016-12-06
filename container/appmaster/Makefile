@@ -1,4 +1,4 @@
-IMAGENAME = dcos-flink
+IMAGENAME = dcos-flink:v1.1
 
 
 build: build-flink
