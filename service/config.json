@@ -10,15 +10,15 @@
           "description": "The Flink TaskManager will register with Mesos with this as framework name. This service will be available at http://<dcos_url>/service/<name>/",
           "type": "string"
         },
-        "cpus": {
+        "appmaster_cpus": {
           "default": 1,
-          "description": "CPU shares",
+          "description": "CPU shares of AppMaster.",
           "minimum": 0.1,
           "type": "number"
         },
-        "mem": {
+        "appmaster_memory": {
           "default": 1024,
-          "description": "Memory (MB)",
+          "description": "Memory (MB) of AppMaster.",
           "minimum": 1024,
           "type": "number"
         },
