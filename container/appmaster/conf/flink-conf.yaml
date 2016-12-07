@@ -62,7 +62,7 @@ taskmanager.numberOfTaskSlots: 1
 
 taskmanager.memory.preallocate: false
 
-# The parallelism used for programs that did not specify and other parallelism.
+# The parallelism used for programs that did not specify any other parallelism.
 parallelism.default: 1
 
 #==============================================================================
