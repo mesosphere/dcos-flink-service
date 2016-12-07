@@ -22,8 +22,14 @@
 
 mesos.master: zk://leader.mesos:2181/mesos
 mesos.failover-timeout: 60
+
+# Initial TaskManagers to spawn.
+mesos.initial-tasks: 1
+
+# Mesos relevant TaskManager settings.
 mesos.resourcemanager.tasks.container.type: mesos
 mesos.resourcemanager.tasks.container.image.name: openjdk:8-jre
+mesos.resourcemanager.tasks.mem: 1024
 
 #==============================================================================
 # Common
