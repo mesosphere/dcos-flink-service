@@ -60,6 +60,12 @@
           "type": "boolean",
           "default": false
         },
+        "taskmanager_heap": {
+          "description": "Heap size (MB) for the TaskManager JVM.",
+          "type": "number",
+          "default": 512,
+          "minimum": 1
+        },
         "parallelism_default": {
           "description": "The parallelism used for programs that did not specify any other parallelism.",
           "type": "integer",
