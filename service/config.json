@@ -59,6 +59,12 @@
           "description": "Specify whether TaskManager memory should be allocated when starting up (true) or when memory is required in the memory manager (false).",
           "type": "boolean",
           "default": false
+        },
+        "parallelism_default": {
+          "description": "The parallelism used for programs that did not specify any other parallelism.",
+          "type": "integer",
+          "default": 1,
+          "minimum": 1
         }
       }
     }
