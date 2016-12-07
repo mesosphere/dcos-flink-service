@@ -4,13 +4,10 @@
   "mem": {{service.mem}},
 
   "env": {
-    "DCOS_SERVICE_NAME": "{{service.name}}",
-    "_CLIENT_TM_COUNT": "{{service.taskmanagers}}",
-    "_CLIENT_TM_MEMORY": "{{service.taskmanager_memory}}",
-    "_SLOTS": "{{service.slots}}",
-    "_CLIENT_USERNAME": "{{service.user}}",
-    "_CLIENT_USERNAME": "{{service.session_id}}"
+    "DCOS_SERVICE_NAME": "{{service.name}}"
   },
+
+  "cmd": "cd \"$MESOS_SANDBOX\" && \"$FLINK_HOME/bin/mesos-appmaster.sh\" -Dmesos.initial-tasks={{service.taskmanagers}} -Dmesos.resourcemanager.tasks.mem={{service.taskmanager_memory}} -Dtaskmanager.numberOfTaskSlots={{service.slots}}",
 
   "container": {
     "type": "DOCKER",
