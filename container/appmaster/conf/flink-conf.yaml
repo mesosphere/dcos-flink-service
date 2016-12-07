@@ -41,21 +41,17 @@ mesos.resourcemanager.tasks.mem: 1024
 
 jobmanager.rpc.address: localhost
 
-
 # The port where the JobManager's main actor system listens for messages.
 
 jobmanager.rpc.port: 6123
-
 
 # The heap size for the JobManager JVM
 
 jobmanager.heap.mb: 256
 
-
 # The heap size for the TaskManager JVM
 
 taskmanager.heap.mb: 512
-
 
 # The number of task slots that each TaskManager offers. Each slot runs one parallel pipeline.
 
@@ -67,9 +63,7 @@ taskmanager.numberOfTaskSlots: 1
 taskmanager.memory.preallocate: false
 
 # The parallelism used for programs that did not specify and other parallelism.
-
 parallelism.default: 1
-
 
 #==============================================================================
 # Web Frontend
@@ -85,7 +79,6 @@ jobmanager.web.port: 8081
 
 #jobmanager.web.submit.enable: false
 
-
 #==============================================================================
 # Streaming state checkpointing
 #==============================================================================
@@ -97,14 +90,12 @@ jobmanager.web.port: 8081
 #
 #state.backend: filesystem
 
-
 # Directory for storing checkpoints in a Flink-supported filesystem
 # Note: State backend must be accessible from the JobManager and all TaskManagers.
 # Use "hdfs://" for HDFS setups, "file://" for UNIX/POSIX-compliant file systems,
 # (or any local file system under Windows), or "S3://" for S3 file system.
 #
-# state.backend.fs.checkpointdir: hdfs://namenode-host:port/flink-checkpoints
-
+#state.backend.fs.checkpointdir: hdfs://namenode-host:port/flink-checkpoints
 
 #==============================================================================
 # Advanced
@@ -113,7 +104,6 @@ jobmanager.web.port: 8081
 # The number of buffers for the network stack.
 #
 # taskmanager.network.numberOfBuffers: 2048
-
 
 # Directories for temporary files.
 #
@@ -131,7 +121,6 @@ jobmanager.web.port: 8081
 #
 # taskmanager.tmp.dirs: /tmp
 
-
 # Path to the Hadoop configuration directory.
 #
 # This configuration is used when writing into HDFS. Unless specified otherwise,
@@ -143,7 +132,6 @@ jobmanager.web.port: 8081
 #
 # fs.hdfs.hadoopconf: /path/to/hadoop/conf/
 
-
 #==============================================================================
 # High Availability
 #==============================================================================
@@ -152,7 +140,6 @@ jobmanager.web.port: 8081
 # setup. This must be a list of the form:
 #
 # "host1:clientPort,host2:clientPort,..." (default clientPort: 2181)
-#
 
 # high-availability: zookeeper
 # high-availability.zookeeper.quorum: localhost:2181
@@ -172,6 +159,7 @@ jobmanager.web.port: 8081
 #==============================================================================
 # ZK Security Configuration (optional configuration)
 #==============================================================================
+
 # Below configurations are applicable if ZK quorum is configured for Kerberos security
 
 # SASL authentication is disabled by default and can be enabled by changig the value to false
