@@ -29,5 +29,11 @@
       "timeoutSeconds": 10,
       "maxConsecutiveFailures": 3
     }
-  ]
+  ],
+
+  "labels": {
+    "DCOS_SERVICE_NAME": "{{service.name}}",
+    "DCOS_SERVICE_PORT_INDEX": "0",
+    "DCOS_SERVICE_SCHEME": "http"
+  }
 }
