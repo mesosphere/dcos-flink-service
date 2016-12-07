@@ -28,16 +28,6 @@
           "default": 256,
           "minimum": 1
         },
-        "role": {
-          "description": "The Flink Dispatcher will register with Mesos with this role.",
-          "type": "string",
-          "default": "*"
-        },
-        "user": {
-          "description": "Executors will run as this user.",
-          "type": "string",
-          "default": "root"
-        },
         "session_id": {
           "description": "Flink session ID.",
           "type": "string",
