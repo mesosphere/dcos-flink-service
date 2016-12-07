@@ -54,6 +54,11 @@
           "type": "number",
           "default": 1024,
           "minimum": 256
+        },
+        "taskmanager_memory_preallocate": {
+          "description": "Specify whether TaskManager memory should be allocated when starting up (true) or when memory is required in the memory manager (false).",
+          "type": "boolean",
+          "default": false
         }
       }
     }
