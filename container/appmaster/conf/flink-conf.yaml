@@ -20,7 +20,7 @@
 # Mesos
 #==============================================================================
 
-mesos.master: zk://zk-1.zk:2181/mesos
+mesos.master: zk://leader.mesos:2181/mesos
 mesos.failover-timeout: 60
 mesos.resourcemanager.tasks.container.type: mesos
 mesos.resourcemanager.tasks.container.image.name: openjdk:8-jre
