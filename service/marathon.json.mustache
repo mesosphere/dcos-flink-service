@@ -7,7 +7,7 @@
     "DCOS_SERVICE_NAME": "{{service.name}}"
   },
 
-  "cmd": "cd \"$MESOS_SANDBOX\" && \"$FLINK_HOME/bin/mesos-appmaster.sh\" -Djobmanager.web.port=$PORT0 -Dmesos.initial-tasks={{service.taskmanagers}} -Dmesos.resourcemanager.tasks.mem={{service.taskmanager_memory}} -Dtaskmanager.memory.preallocate={{service.taskmanager_memory_preallocate}} -Dtaskmanager.numberOfTaskSlots={{service.slots}}",
+  "cmd": "cd \"$MESOS_SANDBOX\" && \"$FLINK_HOME/bin/mesos-appmaster.sh\" -Djobmanager.web.port=$PORT0 -Dmesos.initial-tasks={{service.taskmanagers}} -Dmesos.resourcemanager.tasks.mem={{service.taskmanager_memory}} -Dtaskmanager.memory.preallocate={{service.taskmanager_memory_preallocate}} -Dtaskmanager.numberOfTaskSlots={{service.slots}} -Dparallelism.default={{service.parallelism_default}}",
 
   "container": {
     "type": "DOCKER",
