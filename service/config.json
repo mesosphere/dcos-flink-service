@@ -22,6 +22,12 @@
           "minimum": 1024,
           "type": "number"
         },
+        "appmaster_heap": {
+          "description": "Heap size (MB) for the AppMaster JVM.",
+          "type": "number",
+          "default": 256,
+          "minimum": 1
+        },
         "role": {
           "description": "The Flink Dispatcher will register with Mesos with this role.",
           "type": "string",
