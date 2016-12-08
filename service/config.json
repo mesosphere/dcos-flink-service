@@ -60,6 +60,12 @@
           "default": 1,
           "minimum": 1
         },
+        "cpus": {
+          "description": "CPU shares of each TaskManager.",
+          "type": "number",
+          "default": 1,
+          "minimum": 0.01
+        },
         "memory": {
           "description": "Memory (MB) for each task manager.",
           "type": "number",
