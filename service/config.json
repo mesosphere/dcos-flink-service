@@ -79,7 +79,7 @@
           "minimum": 1
         },
         "memory-preallocation": {
-          "description": "Specify whether TaskManager-memory should be allocated when starting up (true) or when memory is required in the memory manager (false).",
+          "description": "Specify whether TaskManager-memory should be allocated when starting up (checked) or when memory is required in the memory manager (unchecked).",
           "type": "boolean",
           "default": false
         }
