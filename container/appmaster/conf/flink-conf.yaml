@@ -29,6 +29,7 @@ mesos.initial-tasks: 1
 # Mesos relevant TaskManager settings.
 mesos.resourcemanager.tasks.container.type: mesos
 mesos.resourcemanager.tasks.container.image.name: openjdk:8-jre
+mesos.resourcemanager.tasks.cpus: 1
 mesos.resourcemanager.tasks.mem: 1024
 
 #==============================================================================
