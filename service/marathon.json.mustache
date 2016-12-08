@@ -1,13 +1,13 @@
 {
   "id": "{{service.name}}",
-  "cpus": {{service.appmaster_cpus}},
-  "mem": {{service.appmaster_memory}},
+  "cpus": {{service.appmaster-cpus}},
+  "mem": {{service.appmaster-memory}},
 
   "env": {
     "DCOS_SERVICE_NAME": "{{service.name}}"
   },
 
-  "cmd": "cd \"$MESOS_SANDBOX\" && \"$FLINK_HOME/bin/mesos-appmaster.sh\" -Djobmanager.heap.mb={{service.appmaster_heap}} -Djobmanager.rpc.port=$PORT1 -Djobmanager.web.port=$PORT0 -Dmesos.initial-tasks={{service.taskmanagers}} -Dmesos.resourcemanager.tasks.mem={{service.taskmanager_memory}} -Dtaskmanager.heap.mb={{service.taskmanager_heap}} -Dtaskmanager.memory.preallocate={{service.taskmanager_memory_preallocate}} -Dtaskmanager.numberOfTaskSlots={{service.slots}} -Dparallelism.default={{service.parallelism_default}}",
+  "cmd": "cd \"$MESOS_SANDBOX\" && \"$FLINK_HOME/bin/mesos-appmaster.sh\" -Djobmanager.heap.mb={{service.appmaster-heap}} -Djobmanager.rpc.port=$PORT1 -Djobmanager.web.port=$PORT0 -Dmesos.initial-tasks={{service.taskmanagers}} -Dmesos.resourcemanager.tasks.mem={{service.taskmanager-memory}} -Dtaskmanager.heap.mb={{service.taskmanager-heap}} -Dtaskmanager.memory.preallocate={{service.taskmanager-memory-preallocate}} -Dtaskmanager.numberOfTaskSlots={{service.slots}} -Dparallelism.default={{service.parallelism-default}}",
 
   "container": {
     "type": "DOCKER",

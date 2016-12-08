@@ -10,25 +10,25 @@
           "description": "The Flink TaskManager will register with Mesos with this as framework name. This service will be available at http://<dcos_url>/service/<name>/",
           "type": "string"
         },
-        "appmaster_cpus": {
+        "appmaster-cpus": {
           "default": 1,
           "description": "CPU shares of AppMaster.",
           "minimum": 0.1,
           "type": "number"
         },
-        "appmaster_memory": {
+        "appmaster-memory": {
           "default": 1024,
           "description": "Memory (MB) of AppMaster.",
           "minimum": 1024,
           "type": "number"
         },
-        "appmaster_heap": {
+        "appmaster-heap": {
           "description": "Heap size (MB) for the AppMaster JVM.",
           "type": "number",
           "default": 256,
           "minimum": 1
         },
-        "session_id": {
+        "session-id": {
           "description": "Flink session ID.",
           "type": "string",
           "default": "default"
@@ -45,24 +45,24 @@
           "default": 1,
           "minimum": 1
         },
-        "taskmanager_memory": {
+        "taskmanager-memory": {
           "description": "Memory (MB) for each task manager.",
           "type": "number",
           "default": 1024,
           "minimum": 256
         },
-        "taskmanager_memory_preallocate": {
+        "taskmanager-memory-preallocate": {
           "description": "Specify whether TaskManager memory should be allocated when starting up (true) or when memory is required in the memory manager (false).",
           "type": "boolean",
           "default": false
         },
-        "taskmanager_heap": {
+        "taskmanager-heap": {
           "description": "Heap size (MB) for the TaskManager JVM.",
           "type": "number",
           "default": 512,
           "minimum": 1
         },
-        "parallelism_default": {
+        "parallelism-default": {
           "description": "The parallelism used for programs that did not specify any other parallelism.",
           "type": "integer",
           "default": 1,
