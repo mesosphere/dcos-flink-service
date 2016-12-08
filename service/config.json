@@ -67,7 +67,7 @@
           "minimum": 256
         },
         "heap": {
-          "description": "Heap size (MB) for the TaskManager JVM.",
+          "description": "Heap size (MB) for the TaskManager JVM. This value has to be less or equal than memory.",
           "type": "number",
           "default": 512,
           "minimum": 1
