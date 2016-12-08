@@ -10,11 +10,6 @@
           "description": "The Flink TaskManager will register with Mesos with this as framework name. This service will be available at http://<dcos_url>/service/<name>/",
           "type": "string"
         },
-        "session-id": {
-          "description": "Flink session ID.",
-          "type": "string",
-          "default": "default"
-        },
         "slots": {
           "description": "A processing slot allows Flink to execute a distributed DataSet transformation, such as a data source or a map-transformation. As a general recommendation, the number of available CPU cores is a good default.",
           "type": "integer",
