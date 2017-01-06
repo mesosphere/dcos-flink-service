@@ -1,6 +1,6 @@
 # dcos-flink-service
 
-** This is experimental! **
+**This is experimental!**
 
 The DC/OS service repository for Apache Flink.
 
@@ -17,6 +17,10 @@ git clone --recursive https://github.com/mesosphere/dcos-flink-service
 
 # Testing Apache Flink
 
+Prequisite:
+- DC/OS 1.8 cluster
+- DC/OS CLI installed.
+
 1. Install local package repository.
   1. `dcos marathon app add https://raw.githubusercontent.com/mesosphere/dcos-flink-service/rc0/service/rc0-repo/marathon.json` and wait until deployment has finished.
   2. `dcos package repo add --index=0 dev-universe http://universe.marathon.mesos:8085/repo`
@@ -32,6 +36,18 @@ git clone --recursive https://github.com/mesosphere/dcos-flink-service
     "HAPROXY_0_VHOST":"<public host name, e.g., ELB>"
   }
 ~~~
+
+3. Submit Job
+
+  1. UI
+
+  2. Docker Container
+
+      `dcos node ssh --leader --master-proxy`
+
+      `./bin/flink run -m <jobmangerhost>:<jobmangerjobmanager.rpc.port> ./examples/batch/WordCount.jar  --input file:///etc/resolv.conf --output file:///etc/wordcount_out`
+
+    Note that the input/output is local to the container, so most likely you want to configure HDFS or S3.
 
 
 ## AppMaster Docker Container
