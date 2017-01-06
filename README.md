@@ -18,7 +18,7 @@ git clone --recursive https://github.com/mesosphere/dcos-flink-service
 # Testing Apache Flink
 
 1. Install local package repository.
-  1. `dcos marathon app add marathon.json` and wait until deployment has finished.
+  1. `dcos marathon app add https://raw.githubusercontent.com/mesosphere/dcos-flink-service/rc0/service/rc0-repo/marathon.json` and wait until deployment has finished.
   2. `dcos package repo add --index=0 dev-universe http://universe.marathon.mesos:8085/repo`
 2. Install Flink service
   1. `dcos package install flink`
