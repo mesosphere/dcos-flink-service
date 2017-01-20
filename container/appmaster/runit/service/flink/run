@@ -1,0 +1,27 @@
+#!/bin/bash
+set -e
+set -x
+
+exec 2>&1
+
+function export_flink_config_opts() {
+    export FLINK_JAVA_OPTS=""
+    export FLINK_JAVA_OPTS="$FLINK_JAVA_OPTS -Dblob.server.port=$FLINK_BLOB_SERVER_PORT"
+    export FLINK_JAVA_OPTS="$FLINK_JAVA_OPTS -Djobmanager.heap.mb=$FLINK_APP_MASTER_HEAP"
+    export FLINK_JAVA_OPTS="$FLINK_JAVA_OPTS -Djobmanager.rpc.port=$FLINK_JOBMANAGER_RPC_PORT"
+    export FLINK_JAVA_OPTS="$FLINK_JAVA_OPTS -Djobmanager.web.port=$FLINK_JOBMANAGER_WEB_PORT"
+    export FLINK_JAVA_OPTS="$FLINK_JAVA_OPTS -Dmesos.artifact-server.port=$FLINK_MESOS_ARTIFACT_SERVER_PORT"
+    export FLINK_JAVA_OPTS="$FLINK_JAVA_OPTS -Dmesos.initial-tasks=$FLINK_TASK_MANAGER_COUNT"
+    export FLINK_JAVA_OPTS="$FLINK_JAVA_OPTS -Dmesos.resourcemanager.tasks.cpus=$FLINK_TASK_MANAGER_CPUS"
+    export FLINK_JAVA_OPTS="$FLINK_JAVA_OPTS -Dmesos.resourcemanager.tasks.mem=$FLINK_TASK_MANAGER_MEM"
+    export FLINK_JAVA_OPTS="$FLINK_JAVA_OPTS -Dtaskmanager.heap.mb=$FLINK_TASK_MANAGER_HEAP"
+    export FLINK_JAVA_OPTS="$FLINK_JAVA_OPTS -Dtaskmanager.memory.preallocate=$FLINK_TASK_MANAGER_MEM_PREALLOCATION"
+    export FLINK_JAVA_OPTS="$FLINK_JAVA_OPTS -Dtaskmanager.numberOfTaskSlots=$FLINK_TASK_SLOTS"
+    export FLINK_JAVA_OPTS="$FLINK_JAVA_OPTS -Dparallelism.default=$FLINK_PARALLELISM_DEFAULT"
+}
+
+export APPLICATION_WEB_PROXY_BASE="${FLINK_UI_WEB_PROXY_BASE}"
+
+export_flink_config_opts
+
+exec ${FLINK_HOME}/bin/mesos-appmaster.sh ${FLINK_JAVA_OPTS}
