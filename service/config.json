@@ -46,7 +46,12 @@
            "type":"string",
            "description":"log4j log level for Flink cluster.  May be set to any valid log4j log level: https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/Level.html",
            "default":"INFO"
-        }        
+        },
+        "extra-args":{
+           "description":"Use -D<KEY>=<VALUE> format to provide any additional Flink configuration options.",
+           "type":"string",
+           "default":""
+        }
       }
     },
 
@@ -109,6 +114,60 @@
           "default": true
         }
       }
+    },
+
+    "security":{
+      "description":"Flink security configuration properties",
+      "type":"object",
+      "properties":{
+        "ssl":{
+          "description":"Flink SSL certificates and private key configuration.",
+          "type":"object",
+          "properties":{
+            "enabled":{
+              "default":false,
+              "description":"Set to true to enable SSL.",
+              "type":"boolean"
+            },
+            "keyStoreBase64":{
+              "default":"",
+              "description":"Base64 encoded blob containing a Java keystore.",
+              "type":"string"
+            },
+            "trustStoreBase64":{
+              "default":"",
+              "description":"Base64 encoded blob containing a Java truststore.",
+              "type":"string"
+            },
+            "keyPassword":{
+              "default":"",
+              "description":"An optional password for the private key in the keystore.",
+              "type":"string"
+            },
+            "keyStorePassword":{
+              "default":"",
+              "description":"An optional password for the keystore (and the key if keyPassword is not given).",
+              "type":"string"
+            },
+            "trustStorePassword":{
+              "default":"",
+              "description":"An optional password for the truststore.",
+              "type":"string"
+            },
+            "enabledAlgorithms":{
+              "default":"TLS_RSA_WITH_AES_128_CBC_SHA",
+              "description":"A comma-separared list of allowed ciphers.",
+              "type":"string"
+            },
+            "enableArtifactServerSSL":{
+              "default":false,
+              "description":"Set to true to enable SSL for Artifact server.",
+              "type":"boolean"
+            }
+          }
+        }
+      }
     }
+
   }
 }

@@ -5,6 +5,17 @@
   "cmd": "/sbin/init.sh",
 
   "env": {
+{{#security.ssl.enabled}}
+    "FLINK_SSL_ENABLED": "{{security.ssl.enabled}}",
+    "FLINK_SSL_KEYSTOREBASE64": "{{security.ssl.keyStoreBase64}}",
+    "FLINK_SSL_TRUSTSTOREBASE64": "{{security.ssl.trustStoreBase64}}",
+    "FLINK_SSL_KEYSTOREPASSWORD": "{{security.ssl.keyStorePassword}}",
+    "FLINK_SSL_KEYPASSWORD": "{{security.ssl.keyPassword}}",
+    "FLINK_SSL_TRUSTSTOREPASSWORD": "{{security.ssl.keyStorePassword}}",
+    "FLINK_SSL_PROTOCOL": "{{security.ssl.protocol}}",
+    "FLINK_SSL_ENABLEDALGORITHMS": "{{security.ssl.enabledAlgorithms}}",
+    "FLINK_ARTIFACT_SERVER_SSL_ENABLED": "{{security.ssl.enableArtifactServerSSL}}",
+{{/security.ssl.enabled}}
     "DCOS_SERVICE_NAME": "{{service.name}}",
     "FLINK_TASK_SLOTS": "{{service.slots}}",
     "FLINK_PARALLELISM_DEFAULT": "{{service.parallelism-default}}",
@@ -13,6 +24,7 @@
     "FLINK_DISPATCHER_MESOS_SECRET": "{{service.secret}}",
     "FLINK_USER": "{{service.user}}",
     "FLINK_LOG_LEVEL": "{{service.log-level}}",
+    "FLINK_EXTRA_ARGS": "{{service.extra-args}}",
     "FLINK_APP_MASTER_CPUS": "{{app-master.cpus}}",
     "FLINK_APP_MASTER_MEM": "{{app-master.memory}}",
     "FLINK_APP_MASTER_HEAP": "{{app-master.heap}}",
@@ -39,14 +51,19 @@
       "forcePullImage": true
     }
   },
-
   "ports": [0, 0, 0, 0, 0],
 
   "healthChecks": [
     {
+{{#security.ssl.enabled}}
+      "protocol": "COMMAND",
+      "command": { "value": "curl -f -k https://$HOST:$PORT0/" },
+{{/security.ssl.enabled}}
+{{^security.ssl.enabled}}
       "protocol": "HTTP",
       "path": "/",
       "portIndex": 0,
+{{/security.ssl.enabled}}
       "gracePeriodSeconds": 5,
       "intervalSeconds": 60,
       "timeoutSeconds": 10,
@@ -58,8 +75,14 @@
 {{#service.user}}
     "user": "{{service.user}}",
 {{/service.user}}
+{{#security.ssl.enabled}}
+    "DCOS_SERVICE_SCHEME": "https",
+{{/security.ssl.enabled}}
+{{^security.ssl.enabled}}
+    "DCOS_SERVICE_SCHEME": "http",
+{{/security.ssl.enabled}}
     "DCOS_SERVICE_NAME": "{{service.name}}",
-    "DCOS_SERVICE_PORT_INDEX": "0",
-    "DCOS_SERVICE_SCHEME": "http"
+    "DCOS_SERVICE_PORT_INDEX": "0"
   }
+
 }
