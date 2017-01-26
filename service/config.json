@@ -120,6 +120,32 @@
       "description":"Flink security configuration properties",
       "type":"object",
       "properties":{
+        "kerberos": {
+          "description": "Flink Kerberos configuration.",
+          "type": "object",
+          "properties": {
+            "krb5conf": {
+              "description": "Base64 encoded krb5.conf file.  Copied to JMs and TMs so that they may access your KDC.",
+              "type": "string",
+              "default": ""
+            },
+            "use-ticket-cache":{
+              "description":"Indicates whether to read from the user's kerberos ticket cache.",
+              "type":"boolean",
+              "default":true
+            },
+            "keytab":{
+              "description":"Base64 encoded keytab file. Flink cluster and job will run under this identity.",
+              "type":"string",
+              "default":""
+            },
+            "principal":{
+              "description":"Kerberos principal name associated with the keytab.",
+              "type":"string",
+              "default":""
+            }
+          }
+        },
         "ssl":{
           "description":"Flink SSL certificates and private key configuration.",
           "type":"object",

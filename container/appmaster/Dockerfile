@@ -4,7 +4,8 @@ FROM mesosphere/mesos:1.0.1-2.0.93.ubuntu1404
 RUN apt-get update && \
     apt-get install -y \
             runit \
-            curl
+            curl \
+            krb5-user
 
 # The base image contains java 7, but it has no environment variables set for it.
 ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64/jre

@@ -16,6 +16,21 @@
     "FLINK_SSL_ENABLEDALGORITHMS": "{{security.ssl.enabledAlgorithms}}",
     "FLINK_ARTIFACT_SERVER_SSL_ENABLED": "{{security.ssl.enableArtifactServerSSL}}",
 {{/security.ssl.enabled}}
+{{#security.kerberos.krb5conf}}
+    "FLINK_SECURITY_KRB5_CONF_BASE64": "{{security.kerberos.krb5conf}}",
+{{/security.kerberos.krb5conf}}
+
+{{#security.kerberos.use-ticket-cache}}
+    "FLINK_SECURITY_USE_TICKET_CACHE": "{{security.kerberos.use-ticket-cache}}",
+{{/security.kerberos.use-ticket-cache}}
+
+{{#security.kerberos.keytab}}
+    "FLINK_SECURITY_KEYTAB_BASE64": "{{security.kerberos.keytab}}",
+{{/security.kerberos.keytab}}
+
+{{#security.kerberos.principal}}
+    "FLINK_SECURITY_PRINCIPAL": "{{security.kerberos.principal}}",
+{{/security.kerberos.principal}}
     "DCOS_SERVICE_NAME": "{{service.name}}",
     "FLINK_TASK_SLOTS": "{{service.slots}}",
     "FLINK_PARALLELISM_DEFAULT": "{{service.parallelism-default}}",
