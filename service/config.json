@@ -167,6 +167,17 @@
           }
         }
       }
+    },
+
+    "hdfs": {
+      "description": "Flink Hadoop configuration properties",
+      "type": "object",
+      "properties": {
+        "config-url": {
+          "type": "string",
+          "description": "Base URL that serves HDFS config files (hdfs-site.xml, core-site.xml)."
+        }
+      }
     }
 
   }

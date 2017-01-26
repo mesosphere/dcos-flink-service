@@ -11,9 +11,7 @@ ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64/jre
 
 ENV MESOS_NATIVE_JAVA_LIBRARY /usr/lib/libmesos.so
 
-ENV HADOOP_CONF_DIR /etc/hadoop
-
-RUN mkdir /etc/hadoop
+ENV HADOOP_CONF_DIR /etc/hadoop/conf/
 
 ADD runit/service /var/lib/runit/service
 

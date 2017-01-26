@@ -72,9 +72,9 @@
   ],
 
   "labels": {
-{{#service.user}}
-    "user": "{{service.user}}",
-{{/service.user}}
+{{#hdfs.config-url}}
+    "FLINK_HDFS_CONFIG_URL": "{{hdfs.config-url}}",
+{{/hdfs.config-url}}
 {{#security.ssl.enabled}}
     "DCOS_SERVICE_SCHEME": "https",
 {{/security.ssl.enabled}}
@@ -83,6 +83,15 @@
 {{/security.ssl.enabled}}
     "DCOS_SERVICE_NAME": "{{service.name}}",
     "DCOS_SERVICE_PORT_INDEX": "0"
-  }
+  },
+{{#service.user}}
+  "user": "{{service.user}}",
+{{/service.user}}
+  "uris": [
+{{#hdfs.config-url}}
+  "{{hdfs.config-url}}/hdfs-site.xml",
+  "{{hdfs.config-url}}/core-site.xml"
+{{/hdfs.config-url}}
+  ]
 
 }
