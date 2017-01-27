@@ -33,13 +33,13 @@ RUN chmod -R ugo+rw /var/log/
 WORKDIR /
 
 # Copy custom build to image.
-COPY flink/flink-dist/target/flink-1.2-SNAPSHOT-bin/ .
+COPY flink/flink-dist/target/flink-1.3-SNAPSHOT-bin/ .
 
 # Copy base Flink configuration to image.
-COPY conf/ flink-1.2-SNAPSHOT/conf/
+COPY conf/ flink-1.3-SNAPSHOT/conf/
 
-ENV FLINK_HOME /flink-1.2-SNAPSHOT
+ENV FLINK_HOME /flink-1.3-SNAPSHOT
 
-ENV FLINK_CONF_DIR /flink-1.2-SNAPSHOT/conf
+ENV FLINK_CONF_DIR /flink-1.3-SNAPSHOT/conf
 
-WORKDIR flink-1.2-SNAPSHOT
+WORKDIR flink-1.3-SNAPSHOT
