@@ -7,13 +7,13 @@ ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64/jre
 WORKDIR /
 
 # Copy custom build to image.
-COPY flink/flink-dist/target/flink-1.2-SNAPSHOT-bin/ .
+COPY flink/flink-dist/target/flink-1.2.0-bin/ .
 # Copy base Flink configuration to image.
-COPY conf/ flink-1.2-SNAPSHOT/conf/
+COPY conf/ flink-1.2.0/conf/
 
-WORKDIR flink-1.2-SNAPSHOT
+WORKDIR flink-1.2.0
 
-ENV FLINK_HOME /flink-1.2-SNAPSHOT
-ENV FLINK_CONF_DIR /flink-1.2-SNAPSHOT/conf
+ENV FLINK_HOME /flink-1.2.0
+ENV FLINK_CONF_DIR /flink-1.2.0/conf
 
 CMD cd "$MESOS_SANDBOX" && "$FLINK_HOME/bin/mesos-appmaster.sh"

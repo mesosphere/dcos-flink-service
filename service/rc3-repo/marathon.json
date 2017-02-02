@@ -8,7 +8,7 @@
     "type": "DOCKER",
     "docker": {
       "network": "BRIDGE",
-      "image": "mesosphere/universe-server:flink-1.2.0-rc0",
+      "image": "mesosphere/universe-server:flink-universe-1.2.0",
       "portMappings": [
         {
           "containerPort": 80,
