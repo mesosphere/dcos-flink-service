@@ -32,5 +32,13 @@ if [[ "${FLINK_SSL_ENABLED}" == true ]]; then
 	rm -rf "$KEYDIR"
 fi
 
+# Move hadoop config files, as specified by hdfs.config-url, into place.
+if [[ -f $MESOS_SANDBOX/hdfs-site.xml && -f $MESOS_SANDBOX/core-site.xml ]]; then
+		echo "Copying HDFS configuration files to ${HADOOP_CONF_DIR}"
+    mkdir -p "${HADOOP_CONF_DIR}"
+    cp $MESOS_SANDBOX/hdfs-site.xml "${HADOOP_CONF_DIR}"
+    cp $MESOS_SANDBOX/core-site.xml "${HADOOP_CONF_DIR}"
+fi
+
 # start service
 exec runsvdir -P /etc/service
