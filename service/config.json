@@ -21,7 +21,32 @@
           "type": "integer",
           "default": 1,
           "minimum": 1
-        }
+        },
+        "role":{
+           "description":"The Dispatcher component will register with Mesos with this role.",
+           "type":"string",
+           "default":"*"
+        },
+        "principal":{
+           "description":"The Dispatcher component will register with Mesos with this principal.",
+           "type":"string",
+           "default":""
+        },
+        "secret":{
+           "description":"The Dispatcher component will register with mesos with this secret.",
+           "type":"string",
+           "default":""
+        },
+        "user":{
+           "description":"Tasks will run as this user.",
+           "type":"string",
+           "default":"root"
+        },
+        "log-level":{
+           "type":"string",
+           "description":"log4j log level for Flink cluster.  May be set to any valid log4j log level: https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/Level.html",
+           "default":"INFO"
+        }        
       }
     },
 

@@ -2,18 +2,41 @@
   "id": "{{service.name}}",
   "cpus": {{app-master.cpus}},
   "mem": {{app-master.memory}},
+  "cmd": "/sbin/init.sh",
 
   "env": {
-    "DCOS_SERVICE_NAME": "{{service.name}}"
+    "DCOS_SERVICE_NAME": "{{service.name}}",
+    "FLINK_TASK_SLOTS": "{{service.slots}}",
+    "FLINK_PARALLELISM_DEFAULT": "{{service.parallelism-default}}",
+    "FLINK_DISPATCHER_MESOS_ROLE": "{{service.role}}",
+    "FLINK_DISPATCHER_MESOS_PRINCIPAL": "{{service.principal}}",
+    "FLINK_DISPATCHER_MESOS_SECRET": "{{service.secret}}",
+    "FLINK_USER": "{{service.user}}",
+    "FLINK_LOG_LEVEL": "{{service.log-level}}",
+    "FLINK_APP_MASTER_CPUS": "{{app-master.cpus}}",
+    "FLINK_APP_MASTER_MEM": "{{app-master.memory}}",
+    "FLINK_APP_MASTER_HEAP": "{{app-master.heap}}",
+    "FLINK_TASK_MANAGER_COUNT": "{{task-managers.count}}",
+    "FLINK_TASK_MANAGER_CPUS": "{{task-managers.cpus}}",
+    "FLINK_TASK_MANAGER_MEM": "{{task-managers.memory}}",
+    "FLINK_TASK_MANAGER_HEAP": "{{task-managers.heap}}",
+    "FLINK_TASK_MANAGER_MEM_PREALLOCATION": "{{task-managers.memory-preallocation}}"
   },
-
-  "cmd": "export LIBPROCESS_PORT=$PORT4 && cd \"$MESOS_SANDBOX\" && \"$FLINK_HOME/bin/mesos-appmaster.sh\" -Dblob.server.port=$PORT2 -Djobmanager.heap.mb={{app-master.heap}} -Djobmanager.rpc.port=$PORT1 -Djobmanager.web.port=$PORT0 -Dmesos.artifact-server.port=$PORT3 -Dmesos.initial-tasks={{task-managers.count}} -Dmesos.resourcemanager.tasks.cpus={{task-managers.cpus}} -Dmesos.resourcemanager.tasks.mem={{task-managers.memory}} -Dtaskmanager.heap.mb={{task-managers.heap}} -Dtaskmanager.memory.preallocate={{task-managers.memory-preallocation}} -Dtaskmanager.numberOfTaskSlots={{service.slots}} -Dparallelism.default={{service.parallelism-default}}",
 
   "container": {
     "type": "DOCKER",
     "docker": {
       "image": "{{resource.assets.container.docker.flink}}",
-      "network": "HOST"
+      "network": "HOST",
+{{#service.user}}
+      "parameters": [
+        {
+          "key": "user",
+          "value": "{{service.user}}"
+        }
+      ],
+{{/service.user}}
+      "forcePullImage": true
     }
   },
 
@@ -32,6 +55,9 @@
   ],
 
   "labels": {
+{{#service.user}}
+    "user": "{{service.user}}",
+{{/service.user}}
     "DCOS_SERVICE_NAME": "{{service.name}}",
     "DCOS_SERVICE_PORT_INDEX": "0",
     "DCOS_SERVICE_SCHEME": "http"
