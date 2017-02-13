@@ -7,7 +7,7 @@ build-container:
 	docker build -t $(IMAGENAME) .
 
 build-flink:
-	cd flink; mvn package -DskipTests
+	cd flink; mvn clean package -DskipTests
 
 push: build
 	docker push $(IMAGENAME)

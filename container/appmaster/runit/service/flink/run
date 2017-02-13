@@ -4,7 +4,11 @@ set -x
 
 exec 2>&1
 
-function export_flink_config_opts() {
+FLINK_SECURITY_DIR=/etc/security/flink
+mkdir -p $FLINK_SECURITY_DIR
+export APPLICATION_WEB_PROXY_BASE="${FLINK_UI_WEB_PROXY_BASE}"
+
+function add_flink_configurations() {
     export FLINK_JAVA_OPTS=""
     export FLINK_JAVA_OPTS="$FLINK_JAVA_OPTS -Dblob.server.port=$FLINK_BLOB_SERVER_PORT"
     export FLINK_JAVA_OPTS="$FLINK_JAVA_OPTS -Djobmanager.heap.mb=$FLINK_APP_MASTER_HEAP"
@@ -36,39 +40,49 @@ function add_mesos_configurations() {
 }
 
 function add_ssl_configurations() {
-  FLINK_SECURITY_DIR=/etc/security/flink
-  mkdir -p $FLINK_SECURITY_DIR
+  if [[ "${FLINK_SSL_ENABLED}" == true ]]; then
+    if [ "${FLINK_SSL_KEYSTOREBASE64}" != "" ]; then
+        echo "${FLINK_SSL_KEYSTOREBASE64}" | base64 -d > $FLINK_SECURITY_DIR/flink-keystore.jks
+        add_if_non_empty security.ssl.keystore $FLINK_SECURITY_DIR/flink-keystore.jks
+    fi
 
-  if [ "${FLINK_SSL_KEYSTOREBASE64}" != "" ]; then
-      echo "${FLINK_SSL_KEYSTOREBASE64}" | base64 -d > $FLINK_SECURITY_DIR/flink-keystore.jks
-      add_if_non_empty security.ssl.keystore $FLINK_SECURITY_DIR/flink-keystore.jks
+    if [ "${FLINK_SSL_TRUSTSTOREBASE64}" != "" ]; then
+        echo "${FLINK_SSL_TRUSTSTOREBASE64}" | base64 -d > $FLINK_SECURITY_DIR/flink-truststore.jks
+        add_if_non_empty security.ssl.truststore $FLINK_SECURITY_DIR/flink-truststore.jks
+    fi
+
+    add_if_non_empty security.ssl.enabled "${FLINK_SSL_ENABLED}"
+    add_if_non_empty security.ssl.key-password "${FLINK_SSL_KEYPASSWORD}"
+    add_if_non_empty security.ssl.keystore-password "${FLINK_SSL_KEYSTOREPASSWORD}"
+    add_if_non_empty security.ssl.truststore-password "${FLINK_SSL_TRUSTSTOREPASSWORD}"
+    add_if_non_empty security.ssl.protocol "${FLINK_SSL_PROTOCOL}"
+    add_if_non_empty security.ssl.algorithms "${FLINK_SSL_ENABLEDALGORITHMS}"
+    add_if_non_empty mesos.resourcemanager.artifactserver.ssl.enabled "${FLINK_ARTIFACT_SERVER_SSL_ENABLED}"
   fi
-
-  if [ "${FLINK_SSL_TRUSTSTOREBASE64}" != "" ]; then
-      echo "${FLINK_SSL_TRUSTSTOREBASE64}" | base64 -d > $FLINK_SECURITY_DIR/flink-truststore.jks
-      add_if_non_empty security.ssl.truststore $FLINK_SECURITY_DIR/flink-truststore.jks
-  fi
-
-  add_if_non_empty security.ssl.enabled "${FLINK_SSL_ENABLED}"
-  add_if_non_empty security.ssl.key-password "${FLINK_SSL_KEYPASSWORD}"
-  add_if_non_empty security.ssl.keystore-password "${FLINK_SSL_KEYSTOREPASSWORD}"
-  add_if_non_empty security.ssl.truststore-password "${FLINK_SSL_TRUSTSTOREPASSWORD}"
-  add_if_non_empty security.ssl.protocol "${FLINK_SSL_PROTOCOL}"
-  add_if_non_empty security.ssl.algorithms "${FLINK_SSL_ENABLEDALGORITHMS}"
-  add_if_non_empty mesos.resourcemanager.artifactserver.ssl.enabled "${FLINK_ARTIFACT_SERVER_SSL_ENABLED}"
 }
 
-export APPLICATION_WEB_PROXY_BASE="${FLINK_UI_WEB_PROXY_BASE}"
+function add_kerberos_configurations() {
+  add_if_non_empty security.kerberos.login.use-ticket-cache "${FLINK_SECURITY_USE_TICKET_CACHE}"
+  if [ "${FLINK_SECURITY_KEYTAB_BASE64}" != "" ]; then
+      echo "${FLINK_SECURITY_KEYTAB_BASE64}" | base64 -d > $FLINK_SECURITY_DIR/flink-service.keytab
+      add_if_non_empty security.kerberos.login.keytab $FLINK_SECURITY_DIR/flink-service.keytab
+  fi
+  add_if_non_empty security.kerberos.login.principal "${FLINK_SECURITY_PRINCIPAL}"
+  if [[ "${FLINK_SECURITY_KRB5_CONF_BASE64}" != "" ]]; then
+    export JVM_ARGS="$JVM_ARGS -Djava.security.krb5.conf=/etc/krb5.conf"
+  fi
+}
 
-export_flink_config_opts
+function update_log_level() {
+  if [[ "${FLINK_LOG_LEVEL}" != "" ]]; then
+    sed -ie 's/log4j.rootLogger=INFO, file/log4j.rootLogger='"${FLINK_LOG_LEVEL}"', file/g' ${FLINK_HOME}/conf/log4j.properties
+  fi
+}
+
+add_flink_configurations
 add_mesos_configurations
-
-if [[ "${FLINK_SSL_ENABLED}" == true ]]; then
-  add_ssl_configurations
-fi
-
-if [[ "${FLINK_LOG_LEVEL}" != "" ]]; then
-  sed -ie 's/log4j.rootLogger=INFO, file/log4j.rootLogger='"${FLINK_LOG_LEVEL}"', file/g' ${FLINK_HOME}/conf/log4j.properties
-fi
+add_ssl_configurations
+add_kerberos_configurations
+update_log_level
 
 exec ${FLINK_HOME}/bin/mesos-appmaster.sh ${FLINK_JAVA_OPTS}

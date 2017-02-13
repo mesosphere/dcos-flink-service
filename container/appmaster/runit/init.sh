@@ -40,5 +40,10 @@ if [[ -f $MESOS_SANDBOX/hdfs-site.xml && -f $MESOS_SANDBOX/core-site.xml ]]; the
     cp $MESOS_SANDBOX/core-site.xml "${HADOOP_CONF_DIR}"
 fi
 
+# Move kerberos config file, as specified by security.kerberos.krb5conf, into place.
+if [[ "${FLINK_SECURITY_KRB5_CONF_BASE64}" != "" ]]; then
+    echo "${FLINK_SECURITY_KRB5_CONF_BASE64}" | base64 -d > /etc/krb5.conf
+fi
+
 # start service
 exec runsvdir -P /etc/service
