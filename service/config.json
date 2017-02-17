@@ -7,7 +7,7 @@
       "properties": {
         "name": {
           "default": "flink",
-          "description": "The Flink TaskManager will register with Mesos with this as framework name. This service will be available at http://<dcos_url>/service/<name>/",
+          "description": "The Flink Job Manager will register with Mesos with this as framework name. This service will be available at http://<dcos_url>/service/<name>/",
           "type": "string"
         },
         "slots": {
@@ -205,6 +205,5 @@
         }
       }
     }
-
   }
 }
