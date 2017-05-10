@@ -73,6 +73,29 @@ function add_kerberos_configurations() {
   fi
 }
 
+function add_ha_configurations() {
+  if [[ "${FLINK_HA_ENABLED}" == true ]]; then
+    export FLINK_JAVA_OPTS="$FLINK_JAVA_OPTS -Dhigh-availability=ZOOKEEPER"
+    add_if_non_empty high-availability.cluster-id "${FLINK_HIGH_AVAILABILITY_CLUSTER_ID}"
+    add_if_non_empty high-availability.storageDir "${FLINK_HIGH_AVAILABILITY_STORAGE_DIR}"
+    add_if_non_empty high-availability.zookeeper.quorum "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_QUORUM}"
+    add_if_non_empty high-availability.jobmanager.port "${FLINK_HIGH_AVAILABILITY_JOBMANAGER_PORT}"
+    add_if_non_empty high-availability.job.delay "${FLINK_HIGH_AVAILABILITY_JOB_DELAY}"
+    add_if_non_empty high-availability.zookeeper.path.root "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_PATH_ROOT}"
+    # used for the client at ha services initiated by the mesos app master runner
+    add_if_non_empty ghigh-availability.zookeeper.client.session-timeout \
+    "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_CLIENT_SESSION_TIMEOUT}"
+    add_if_non_empty high-availability.zookeeper.client.connection-timeout \
+    "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_CLIENT_CONNECTION_TIMEOUT}"
+    add_if_non_empty high-availability.zookeeper.client.retry-wait \
+    "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_CLIENT_RETRY_WAIT}"
+    add_if_non_empty high-availability.zookeeper.client.max-retry-attempts \
+    "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_CLIENT_MAX_RETRY_ATTEMPTS}"
+    add_if_non_empty high-availability.zookeeper.path.running-registry \
+    "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_PATH_RUNNING_REGISTRY}"
+  fi
+}
+
 function update_log_level() {
   if [[ "${FLINK_LOG_LEVEL}" != "" ]]; then
     sed -ie 's/log4j.rootLogger=INFO, file/log4j.rootLogger='"${FLINK_LOG_LEVEL}"', file/g' ${FLINK_HOME}/conf/log4j.properties
@@ -80,6 +103,7 @@ function update_log_level() {
 }
 
 add_flink_configurations
+add_ha_configurations
 add_mesos_configurations
 add_ssl_configurations
 add_kerberos_configurations
