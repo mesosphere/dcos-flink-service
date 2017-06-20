@@ -1,5 +1,5 @@
 # Includes libmesos.so
-FROM mesosphere/mesos:1.0.1-2.0.93.ubuntu1404
+FROM mesosphere/mesos:1.3.0
 
 RUN apt-get update && \
     apt-get install -y \
@@ -33,12 +33,12 @@ RUN chmod -R ugo+rw /var/log/
 WORKDIR /
 
 # Copy custom build to image.
-COPY flink/flink-dist/target/flink-1.2.0-bin/ .
+COPY flink/flink-dist/target/flink-1.3-SNAPSHOT-bin/ .
 
 # Copy base Flink configuration to image.
-COPY conf/ flink-1.2.0/conf/
+COPY conf/ flink-1.3.0/conf/
 
-WORKDIR flink-1.2.0
+WORKDIR flink-1.3-SNAPSHOT
 
-ENV FLINK_HOME /flink-1.2.0
-ENV FLINK_CONF_DIR /flink-1.2.0/conf
+ENV FLINK_HOME /flink-1.3-SNAPSHOT
+ENV FLINK_CONF_DIR /flink-1.3.0/conf
