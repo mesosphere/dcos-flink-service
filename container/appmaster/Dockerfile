@@ -8,7 +8,7 @@ RUN apt-get update && \
             krb5-user \
             software-properties-common
 
-RUN add-apt-repository ppa:openjdk-r/ppa
+RUN add-apt-repository --yes ppa:openjdk-r/ppa
 
 RUN apt-get update && \
     apt-get install --yes \
