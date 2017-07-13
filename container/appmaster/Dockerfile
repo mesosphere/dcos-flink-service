@@ -7,6 +7,8 @@ RUN apt-get update && \
             curl \
             krb5-user
 
+RUN add-apt-repository ppa:openjdk-r/ppa
+
 RUN apt-get update && \
     apt-get install --yes \
     openjdk-8-jdk\
