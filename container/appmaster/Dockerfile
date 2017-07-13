@@ -5,7 +5,8 @@ RUN apt-get update && \
     apt-get install -y \
             runit \
             curl \
-            krb5-user
+            krb5-user \
+            software-properties-common
 
 RUN add-apt-repository ppa:openjdk-r/ppa
 
