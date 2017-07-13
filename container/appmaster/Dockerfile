@@ -7,8 +7,16 @@ RUN apt-get update && \
             curl \
             krb5-user
 
+RUN apt-get update && \
+    apt-get install --yes \
+    openjdk-8-jdk\
+    wget \
+    tar
+
 # The base image contains java 8, but it has no environment variables set for it.
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/jre
+
+RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
 
 ENV MESOS_NATIVE_JAVA_LIBRARY /usr/lib/libmesos.so
 
