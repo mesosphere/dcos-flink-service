@@ -1,5 +1,5 @@
-IMAGENAME = dcos-flink:1.3.1-1.0
-IMAGENAME_2_11 = dcos-flink-2-11:1.3.1-1.0
+IMAGENAME = dcos-flink:1.3.1-1.1
+IMAGENAME_2_11 = dcos-flink-2-11:1.3.1-1.1
 
 build: build-flink build-container build-flink-2-11 build-container-2-11
 
