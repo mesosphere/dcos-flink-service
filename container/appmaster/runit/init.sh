@@ -9,6 +9,7 @@ export FLINK_MESOS_ARTIFACT_SERVER_PORT="$PORT3"
 export LIBPROCESS_PORT="$PORT4"
 
 export FLINK_UI_WEB_PROXY_BASE="/service/${DCOS_SERVICE_NAME}"
+export FLINK_LOG_DIR=$MESOS_SANDBOX
 
 # validate base64 encoded keystore and truststroe
 if [[ "${FLINK_SSL_ENABLED}" == true ]]; then
