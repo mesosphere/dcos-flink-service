@@ -49,7 +49,7 @@ COPY flink/flink-dist/target/flink-1.3.1-bin/ .
 # Copy base Flink configuration to image.
 COPY conf/ flink-1.3.1/conf/
 
-WORKDIR flink-1.3-SNAPSHOT
+WORKDIR flink-1.3.1
 
 ENV FLINK_HOME /flink-1.3.1
 ENV FLINK_CONF_DIR /flink-1.3.1/conf
