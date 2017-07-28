@@ -123,14 +123,12 @@ func (cmd *UploadHandler) runUpload(c *kingpin.ParseContext) error {
 
 	url := "http://54.71.5.146/service/flink/jars/upload"
 
-	payload := strings.NewReader("------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"jarfile\"; filename=\"WordCount.jar\"\r\nContent-Type: application/java-archive\r\n\r\n\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"filename\"\r\n\r\nWordCount.jar\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--")
+	payload := strings.NewReader("------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"jarfile\"; filename=\"WordCount.jar\"\r\nContent-Type: application/java-archive\r\n\r\n\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--")
 
 	req, _ := http.NewRequest("POST", url, payload)
 
 	req.Header.Add("authorization", "token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MDE2OTEyMTUsInVpZCI6ImJvb3RzdHJhcHVzZXIifQ.DbIxHsISFsKDmLyWuhzVnx7IlfCyZnJ6x86XH6NC4HiuB3BcU8bvJnfrvq5NX9-eJeKfXQ2bAZjaDYQ9pQBTipyxghF6rxMPQ3HqYEftU07ciwwVAAtZHMg56hI5MNY99vyXjdKPG44nbNxe0a_CirfOKEI-ItnCTDCGvG_OJgsbAUESOOHOT0RGyXzoMZpsiam_u8aFgtbfbyScTzKfFjA8C-aRVIk5D-tXSce_AyDNrsGHNVzjxAxhZ_1EZduCMqwMUgP7Si6sw_-jU_xURAJ9bZBgx1K_SCy005HsW3zHgBhMDYDeeFmnx6kRtVdbIa6x2MZGFTsbITpc4dWKBQ")
 	req.Header.Add("content-type", "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW")
-	req.Header.Add("cache-control", "no-cache")
-	req.Header.Add("postman-token", "c3f685a8-d4dd-05a3-28e9-bc63ff3dfb80")
 
 	res, _ := http.DefaultClient.Do(req)
 
