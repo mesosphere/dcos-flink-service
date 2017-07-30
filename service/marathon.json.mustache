@@ -69,7 +69,14 @@
       ],
 {{/service.user}}
       "forcePullImage": true
-    }
+    },
+    "volumes": [
+        {
+            "containerPath": "/flink-1.3.1/tmp",
+            "hostPath": "flinkTmp",
+            "mode": "RW"
+        }
+     ]
   },
   "ports": [0, 0, 0, 0, 0],
 
