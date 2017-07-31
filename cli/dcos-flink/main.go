@@ -5,20 +5,15 @@ import (
 	"github.com/mesosphere/dcos-commons/cli/client"
 	"gopkg.in/alecthomas/kingpin.v2"
 	"fmt"
-	"os"
 	"strings"
 	"net/http"
-	"os/exec"
 	"io/ioutil"
 )
-
-//	"net/http/httputil"
 
 func main() {
 	app := cli.New()
 
 	// cli.HandleDefaultSections(app)
-
 	handleListSection(app)
 	handleJobSection(app)
 	handleRunSection(app)
@@ -120,44 +115,32 @@ type UploadHandler struct {
 }
 
 func (cmd *UploadHandler) runUpload(c *kingpin.ParseContext) error {
-
-	url := "http://54.71.5.146/service/flink/jars/upload"
-
-	payload := strings.NewReader("------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"jarfile\"; filename=\"WordCount.jar\"\r\nContent-Type: application/java-archive\r\n\r\n\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--")
+	//TODO x509 auth instead of https to http change
+	url := client.OptionalCLIConfigValue("core.dcos_url") //TODO this should be a RequiredCLIConfigValue
+	url = strings.Replace(url,"https://", "http://", 1)
+	url = fmt.Sprintf("%s/service/flink/jars/upload", url)
+	payload := strings.NewReader(fmt.Sprintf("------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"jarfile\"; filename=\"%s\"\r\nContent-Type: application/java-archive\r\n\r\n\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--", cmd.upload))
 
 	req, _ := http.NewRequest("POST", url, payload)
 
-	req.Header.Add("authorization", "token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MDE2OTEyMTUsInVpZCI6ImJvb3RzdHJhcHVzZXIifQ.DbIxHsISFsKDmLyWuhzVnx7IlfCyZnJ6x86XH6NC4HiuB3BcU8bvJnfrvq5NX9-eJeKfXQ2bAZjaDYQ9pQBTipyxghF6rxMPQ3HqYEftU07ciwwVAAtZHMg56hI5MNY99vyXjdKPG44nbNxe0a_CirfOKEI-ItnCTDCGvG_OJgsbAUESOOHOT0RGyXzoMZpsiam_u8aFgtbfbyScTzKfFjA8C-aRVIk5D-tXSce_AyDNrsGHNVzjxAxhZ_1EZduCMqwMUgP7Si6sw_-jU_xURAJ9bZBgx1K_SCy005HsW3zHgBhMDYDeeFmnx6kRtVdbIa6x2MZGFTsbITpc4dWKBQ")
+	//fetch the Auth token from the main CLI.
+	req.Header.Add("authorization", fmt.Sprintf("token=%s", client.OptionalCLIConfigValue("core.dcos_acs_token")))
 	req.Header.Add("content-type", "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW")
 
-	res, _ := http.DefaultClient.Do(req)
-
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+    fmt.Println("Error: %s\n", err)
+    return nil
+}
 	defer res.Body.Close()
 	body, _ := ioutil.ReadAll(res.Body)
 
-	fmt.Println(res)
 	fmt.Println(string(body))
-
 	return nil
 }
 
 func handleUploadSection(app *kingpin.Application) {
 	cmd := &UploadHandler{}
-	// job := app.Command("run", "Run flink job")
-	app.Command("upload", "Upload flink jar to run").Action(cmd.runUpload)
-}
-
-
-//TODO remove if not used
-func runDcosCommand(arg ...string) {
-	cmd := exec.Command("dcos", arg...)
-	cmd.Stdin = os.Stdin
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	err := cmd.Run()
-	if err != nil {
-		fmt.Printf("[Error] %s\n\n", err)
-		fmt.Printf("Unable to run DC/OS command: %s\n", strings.Join(arg, " "))
-		fmt.Printf("Make sure your PATH includes the 'dcos' executable.\n")
-	}
+	upload := app.Command("upload", "Upload flink jar to run").Action(cmd.runUpload)
+	upload.Arg("jar file", "jar file to upload").Required().StringVar(&cmd.upload)
 }
