@@ -5,11 +5,15 @@ import (
 	"github.com/mesosphere/dcos-commons/cli/client"
 	"gopkg.in/alecthomas/kingpin.v2"
 	"fmt"
-	"strings"
-	"net/http"
-	"io/ioutil"
+	"bytes"
+	"log"
+	"os"
+	"os/exec"
 )
 
+// "strings"
+// "net/http"
+// "io/ioutil"
 func main() {
 	app := cli.New()
 
@@ -32,7 +36,7 @@ func runList(c *kingpin.ParseContext) error {
 	if err == nil {
 		client.PrintJSONBytes(response)
 	} else {
-		fmt.Println(err)
+		log.Println(err)
 	}
 	return nil
 }
@@ -74,7 +78,7 @@ type RunHandler struct {
 }
 
 func (cmd *RunHandler) runRun(c *kingpin.ParseContext) error {
-	response, err := client.HTTPServicePost(fmt.Sprintf("jars/%s/run", cmd.run))
+	response, err := client.HTTPServicePostQuery(fmt.Sprintf("jars/%s/run", cmd.run), "entry-class=org.apache.flink.examples.java.wordcount.WordCount")
 	if err == nil {
 		client.PrintJSONBytes(response)
 	} else {
@@ -98,7 +102,7 @@ func (cmd *CancelHandler) runCancel(c *kingpin.ParseContext) error {
 	if err == nil {
 		client.PrintJSONBytes(response)
 	} else {
-		fmt.Println(err)
+		log.Println(err)
 	}
 	return nil
 }
@@ -119,6 +123,8 @@ func (cmd *UploadHandler) runUpload(c *kingpin.ParseContext) error {
 	url := client.OptionalCLIConfigValue("core.dcos_url") //TODO this should be a RequiredCLIConfigValue
 	url = strings.Replace(url,"https://", "http://", 1)
 	url = fmt.Sprintf("%s/service/flink/jars/upload", url)
+
+	//create multipart payload
 	payload := strings.NewReader(fmt.Sprintf("------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"jarfile\"; filename=\"%s\"\r\nContent-Type: application/java-archive\r\n\r\n\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--", cmd.upload))
 
 	req, _ := http.NewRequest("POST", url, payload)
