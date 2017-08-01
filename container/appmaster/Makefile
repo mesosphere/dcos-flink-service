@@ -15,6 +15,9 @@ build-flink-2-11:
 build-flink:
 	cd flink; ./tools/change-scala-version.sh 2.10; mvn clean package -DskipTests
 
+build-flink-cli:
+	cd cli/tools; ./build-cli.sh
+
 push: build
 	docker push $(IMAGENAME)
 	docker push $(IMAGENAME_2_11)

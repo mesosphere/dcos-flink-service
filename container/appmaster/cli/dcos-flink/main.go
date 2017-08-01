@@ -1,3 +1,5 @@
+// Created by @OhRobin
+
 package main
 
 import (
@@ -5,15 +7,13 @@ import (
 	"github.com/mesosphere/dcos-commons/cli/client"
 	"gopkg.in/alecthomas/kingpin.v2"
 	"fmt"
-	"bytes"
 	"log"
-	"os"
-	"os/exec"
+	"strings"
+	"net/http"
+	"io/ioutil"
 )
 
-// "strings"
-// "net/http"
-// "io/ioutil"
+
 func main() {
 	app := cli.New()
 
@@ -125,13 +125,13 @@ func (cmd *UploadHandler) runUpload(c *kingpin.ParseContext) error {
 	url = fmt.Sprintf("%s/service/flink/jars/upload", url)
 
 	//create multipart payload
-	payload := strings.NewReader(fmt.Sprintf("------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"jarfile\"; filename=\"%s\"\r\nContent-Type: application/java-archive\r\n\r\n\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--", cmd.upload))
+	payload := strings.NewReader(fmt.Sprintf("------FormBoundary@OhRobin\r\nContent-Disposition: form-data; name=\"jarfile\"; filename=\"%s\"\r\nContent-Type: application/java-archive\r\n\r\n\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--", cmd.upload))
 
 	req, _ := http.NewRequest("POST", url, payload)
 
 	//fetch the Auth token from the main CLI.
 	req.Header.Add("authorization", fmt.Sprintf("token=%s", client.OptionalCLIConfigValue("core.dcos_acs_token")))
-	req.Header.Add("content-type", "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW")
+	req.Header.Add("content-type", "multipart/form-data; boundary=----FormBoundary@OhRobin")
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
