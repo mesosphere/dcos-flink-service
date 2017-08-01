@@ -40,7 +40,7 @@ mesos.resourcemanager.tasks.mem: 1024
 # The JobManager process will use this hostname to bind the listening servers to.
 # The TaskManagers will try to connect to the JobManager on that host.
 
-jobmanager.rpc.address: localhost
+# jobmanager.rpc.address: localhost
 
 # The port where the JobManager's main actor system listens for messages.
 
