@@ -119,23 +119,30 @@ type UploadHandler struct {
 }
 
 func (cmd *UploadHandler) runUpload(c *kingpin.ParseContext) error {
-	var out bytes.Buffer
-	nodeListExec := exec.Command("curl",
-															"--request", "POST",
-															"--url", "http://35.163.9.200/service/flink/jars/upload",
-															"--header", 	"'authorization:token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MDIwMzc0NTgsInVpZCI6ImJvb3RzdHJhcHVzZXIifQ.GFaNZ7li5DIl64tWAWeWmhOzF6VeBubwcV9yKgc9evSxjlEC35JPpn5BpeHVudW54ha6Nd06Gl8YbtkhNK6kHyiSz5OzatfAW_rEApD1orgBRNkZ2N26q7ELpEZwGn1V8NX7OljKM61Lcn5rZFSC6YQXXQTnOtcmq8ntXycNi7xpBLCa3G0n0PNIuAbWevHVbUW8hFU4SELhnaCnRO_SM7F0S1grWpVXX0Xt99CZppb_cgCzbFJi6DBtI5jWsVOVJcDPlvUw1QjnYbwLKwV-jpZKSmCNTqqiJy04bypJKGE9F1ZtZAs0AC8l9YYktrwXDhY93qmgLIS3jAOnB8l5Tw'",
-														 	"--header", "'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW'","--header","Expect:",
-													 		"--form", "jarfile=@/Users/robinoh/Desktop/dcos-flink-service/container/appmaster/flink/flink-examples/flink-examples-batch/target/WordCount.jar")
-	nodeListExec.Stdin = os.Stdin
-	nodeListExec.Stdout = &out
-	nodeListExec.Stderr = os.Stderr
+	//TODO x509 auth instead of https to http change
+	url := client.OptionalCLIConfigValue("core.dcos_url") //TODO this should be a RequiredCLIConfigValue
+	url = strings.Replace(url,"https://", "http://", 1)
+	url = fmt.Sprintf("%s/service/flink/jars/upload", url)
 
-	err := nodeListExec.Run()
+	//create multipart payload
+	payload := strings.NewReader(fmt.Sprintf("------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"jarfile\"; filename=\"%s\"\r\nContent-Type: application/java-archive\r\n\r\n\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--", cmd.upload))
+
+	req, _ := http.NewRequest("POST", url, payload)
+
+	//fetch the Auth token from the main CLI.
+	req.Header.Add("authorization", fmt.Sprintf("token=%s", client.OptionalCLIConfigValue("core.dcos_acs_token")))
+	req.Header.Add("content-type", "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW")
+
+	res, err := http.DefaultClient.Do(req)
 	if err != nil {
-		fmt.Printf("[Error] %s\n\n", err)
-		fmt.Printf("Unable to run DC/OS command")
-		fmt.Printf("Make sure your PATH includes the 'dcos' executable.\n")
-	}
+    fmt.Println("Error: %s\n", err)
+    return nil
+}
+	defer res.Body.Close()
+	body, _ := ioutil.ReadAll(res.Body)
+
+	fmt.Println(string(body))
+	return nil
 }
 
 func handleUploadSection(app *kingpin.Application) {
