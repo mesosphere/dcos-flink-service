@@ -33,8 +33,14 @@ function add_if_non_empty() {
 	fi
 }
 
+function add_if_non_empty_to_config() {
+	if [ -n "$2" ]; then
+     echo "$1: $2" >> ${FLINK_HOME}/conf/flink-conf.yaml
+	fi
+}
+
 function add_mesos_configurations() {
-  add_if_non_empty jobmanager.rpc.address $(hostname -f)       
+  add_if_non_empty jobmanager.rpc.address $(hostname -f)
   add_if_non_empty mesos.resourcemanager.framework.role "${FLINK_DISPATCHER_MESOS_ROLE}"
   add_if_non_empty mesos.resourcemanager.framework.principal "${FLINK_DISPATCHER_MESOS_PRINCIPAL}"
   add_if_non_empty mesos.resourcemanager.framework.secret "${FLINK_DISPATCHER_MESOS_SECRET}"
@@ -76,24 +82,33 @@ function add_kerberos_configurations() {
 
 function add_ha_configurations() {
   if [[ "${FLINK_HA_ENABLED}" == true ]]; then
-    export FLINK_JAVA_OPTS="$FLINK_JAVA_OPTS -Dhigh-availability=ZOOKEEPER"
-    add_if_non_empty high-availability.cluster-id "${FLINK_HIGH_AVAILABILITY_CLUSTER_ID}"
-    add_if_non_empty high-availability.storageDir "${FLINK_HIGH_AVAILABILITY_STORAGE_DIR}"
-    add_if_non_empty high-availability.zookeeper.quorum "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_QUORUM}"
-    add_if_non_empty high-availability.jobmanager.port "${FLINK_HIGH_AVAILABILITY_JOBMANAGER_PORT}"
-    add_if_non_empty high-availability.job.delay "${FLINK_HIGH_AVAILABILITY_JOB_DELAY}"
-    add_if_non_empty high-availability.zookeeper.path.root "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_PATH_ROOT}"
-    # used for the client at ha services initiated by the mesos app master runner
-    add_if_non_empty ghigh-availability.zookeeper.client.session-timeout \
-    "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_CLIENT_SESSION_TIMEOUT}"
-    add_if_non_empty high-availability.zookeeper.client.connection-timeout \
-    "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_CLIENT_CONNECTION_TIMEOUT}"
-    add_if_non_empty high-availability.zookeeper.client.retry-wait \
-    "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_CLIENT_RETRY_WAIT}"
-    add_if_non_empty high-availability.zookeeper.client.max-retry-attempts \
-    "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_CLIENT_MAX_RETRY_ATTEMPTS}"
-    add_if_non_empty high-availability.zookeeper.path.running-registry \
+    add_if_non_empty_to_config high-availability ZOOKEEPER
+    add_if_non_empty_to_config high-availability.cluster-id "${FLINK_HIGH_AVAILABILITY_CLUSTER_ID}"
+    add_if_non_empty_to_config high-availability.storageDir "${FLINK_HIGH_AVAILABILITY_STORAGE_DIR}"
+    add_if_non_empty_to_config high-availability.zookeeper.quorum "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_QUORUM}"
+    add_if_non_empty_to_config high-availability.jobmanager.port "${FLINK_HIGH_AVAILABILITY_JOBMANAGER_PORT}"
+    add_if_non_empty_to_config high-availability.job.delay "${FLINK_HIGH_AVAILABILITY_JOB_DELAY}"
+    add_if_non_empty_to_config high-availability.zookeeper.path.root "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_PATH_ROOT}"
+    add_if_non_empty_to_config high-availability.zookeeper.path.running-registry \
     "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_PATH_RUNNING_REGISTRY}"
+    add_if_non_empty_to_config high-availability.zookeeper.path.latch "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_PATH_LEADER_LATCH}"
+    add_if_non_empty_to_config high-availability.zookeeper.path.jobgraphs "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_PATH_JOBGRAPHS}"
+    add_if_non_empty_to_config high-availability.zookeeper.path.leader "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_PATH_LEADER}"
+    add_if_non_empty_to_config high-availability.zookeeper.path.checkpoints "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_PATH_CHECKPOINTS}"
+    add_if_non_empty_to_config high-availability.zookeeper.path.checkpoint-counter "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_PATH_CHECKPOINT_COUNTER}"
+    add_if_non_empty_to_config high-availability.zookeeper.path.mesos-workers "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_PATH_MESOS_WORKERS}"
+
+    # used for the client at ha services initiated by the mesos app master runner
+    add_if_non_empty_to_config high-availability.zookeeper.client.session-timeout \
+    "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_CLIENT_SESSION_TIMEOUT}"
+    add_if_non_empty_to_config high-availability.zookeeper.client.connection-timeout \
+    "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_CLIENT_CONNECTION_TIMEOUT}"
+    add_if_non_empty_to_config high-availability.zookeeper.client.retry-wait \
+    "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_CLIENT_RETRY_WAIT}"
+    add_if_non_empty_to_config high-availability.zookeeper.client.max-retry-attempts \
+    "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_CLIENT_MAX_RETRY_ATTEMPTS}"
+    add_if_non_empty_to_config high-availability.zookeeper.client.acl \
+    "${FLINK_HIGH_AVAILABILITY_ZOOKEEPER_CLIENT_ACL}"
   fi
 }
 
