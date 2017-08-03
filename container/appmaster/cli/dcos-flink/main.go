@@ -85,8 +85,7 @@ func (cmd *InfoHandler) runInfo(c *kingpin.ParseContext) error {
 func handleJobSection(app *kingpin.Application) {
 	cmd := &InfoHandler{}
 	job := app.Command("info", "Summary of job status").Action(cmd.runInfo)
-	job.Arg("job id",
-					"Summary of one job").StringVar(&cmd.info)
+	job.Arg("job id", "Summary of one job").StringVar(&cmd.info)
 }
 
 
