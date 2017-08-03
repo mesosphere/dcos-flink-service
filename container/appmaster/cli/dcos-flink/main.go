@@ -43,7 +43,7 @@ func runList(c *kingpin.ParseContext) error {
 }
 
 func handleJarsSection(app *kingpin.Application) {
-	app.Command("jars", "List uploaded jar files and associated JarIDs").Action(runJars)
+	app.Command("jars", "List uploaded jar files and associated jar ids").Action(runJars)
 }
 
 func runJars(c *kingpin.ParseContext) error {
@@ -84,8 +84,8 @@ func (cmd *InfoHandler) runInfo(c *kingpin.ParseContext) error {
 //job
 func handleJobSection(app *kingpin.Application) {
 	cmd := &InfoHandler{}
-	job := app.Command("info", "Summary of Job status.").Action(cmd.runInfo)
-	job.Arg("jobid",
+	job := app.Command("info", "Summary of job status").Action(cmd.runInfo)
+	job.Arg("job id",
 					"Summary of one job").StringVar(&cmd.info)
 }
 
@@ -108,7 +108,7 @@ func (cmd *RunHandler) runRun(c *kingpin.ParseContext) error {
 func handleRunSection(app *kingpin.Application) {
 	cmd := &RunHandler{}
 	run := app.Command("run", "Run flink job").Action(cmd.runRun)
-	run.Arg("JarID", "The filename provided after uploading Jar file").Required().StringVar(&cmd.run)
+	run.Arg("jar id", "The filename provided after uploading jar file").Required().StringVar(&cmd.run)
 }
 
 //cancel job
