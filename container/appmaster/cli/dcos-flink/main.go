@@ -17,7 +17,6 @@ import (
 func main() {
 	app := cli.New()
 
-	// cli.HandleDefaultSections(app)
 	handleListSection(app)
 	handleJobSection(app)
 	handleRunSection(app)
@@ -109,7 +108,7 @@ func (cmd *CancelHandler) runCancel(c *kingpin.ParseContext) error {
 
 func handleCancelSection(app *kingpin.Application) {
 	cmd := &CancelHandler{}
-	cancel := app.Command("cancel", "cancel flink job").Action(cmd.runCancel)
+	cancel := app.Command("cancel", "Cancel flink job").Action(cmd.runCancel)
 	cancel.Arg("job id", "job id of flink").Required().StringVar(&cmd.cancel)
 }
 
