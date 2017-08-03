@@ -11,5 +11,30 @@
     "icon-small": "https://s3.amazonaws.com/downloads.mesosphere.io/universe/assets/icon-service-flink-small.png",
     "icon-medium": "https://s3.amazonaws.com/downloads.mesosphere.io/universe/assets/icon-service-flink-medium.png",
     "icon-large": "https://s3.amazonaws.com/downloads.mesosphere.io/universe/assets/icon-service-flink-large.png"
+  },
+    "cli":{
+    "binaries":{
+      "darwin":{
+        "x86-64":{
+          "contentHash":[ { "algo":"sha256", "value":"896d2e3f1c787d9c6803b7ebc883d5904c9ba74838d6ba6abcac43a9b181144b" } ],
+          "kind":"executable",
+          "url":"https://github.com/OhRobin/dcos-flink-service/blob/roh/cli/container/appmaster/cli/dcos-flink/artifacts/dcos-flink-service-darwin?raw=true"
+        }
+      },
+      "linux":{
+        "x86-64":{
+          "contentHash":[ { "algo":"sha256", "value":"2277f625a5356b85ecfac0ab2fc0eba2334a3994d6e209dc21fc7f80504c2a7b" } ],
+          "kind":"executable",
+          "url":"https://github.com/OhRobin/dcos-flink-service/tree/roh/cli/container/appmaster/cli/dcos-flink/artifacts/dcos-flink-service-linux?raw=true"
+        }
+      },
+      "windows":{
+        "x86-64":{
+          "contentHash":[ { "algo":"sha256", "value":"3a5471aa03af1534b8ee15d485d82011cca7171a0ef47ec2db6d77cbe552bd08" } ],
+          "kind":"executable",
+          "url":"https://github.com/OhRobin/dcos-flink-service/tree/roh/cli/container/appmaster/cli/dcos-flink/artifacts/dcos-flink-service.exe?raw=true"
+        }
+      }
+    }
   }
 }
