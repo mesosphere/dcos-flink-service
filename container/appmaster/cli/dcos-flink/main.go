@@ -96,7 +96,7 @@ type RunHandler struct {
 }
 
 func (cmd *RunHandler) runRun(c *kingpin.ParseContext) error {
-	response, err := client.HTTPServicePostQuery(fmt.Sprintf("jars/%s/run", cmd.run), "entry-class=org.apache.flink.examples.java.wordcount.WordCount")
+	response, err := client.HTTPServicePost(fmt.Sprintf("jars/%s/run", cmd.run))
 	if err == nil {
 		client.PrintJSONBytes(response)
 	} else {
