@@ -12,29 +12,29 @@
     "icon-medium": "https://s3.amazonaws.com/downloads.mesosphere.io/universe/assets/icon-service-flink-medium.png",
     "icon-large": "https://s3.amazonaws.com/downloads.mesosphere.io/universe/assets/icon-service-flink-large.png"
   },
-  "cli":{
-  "binaries":{
-    "darwin":{
-      "x86-64":{
-        "contentHash":[ { "algo":"sha256", "value":"660f143852b6d3d2b0b2f787fab9e5e2927f4440502a89c9e1c08488cdacc34f" } ],
-        "kind":"executable",
-        "url":"https://downloads.mesosphere.com/kafka/assets/1.1.19-0.10.1.0/dcos-flink-service-darwin"
-      }
-    },
-    "linux":{
-      "x86-64":{
-        "contentHash":[ { "algo":"sha256", "value":"0b26409c9760fd4d75fca1114d01f25ec069147d578d6f337c88424ebc64c808" } ],
-        "kind":"executable",
-        "url":"https://downloads.mesosphere.com/kafka/assets/1.1.19-0.10.1.0/dcos-flink-service-linux"
-      }
-    },
-    "windows":{
-      "x86-64":{
-        "contentHash":[ { "algo":"sha256", "value":"60d6f802412b94833cf8db217af162e7dc35c0f5e0a1eb4b587268c361500c3b" } ],
-        "kind":"executable",
-        "url":"https://downloads.mesosphere.com/kafka/assets/1.1.19-0.10.1.0/dcos-flink-service.exe"
+    "cli":{
+    "binaries":{
+      "darwin":{
+        "x86-64":{
+          "contentHash":[ { "algo":"sha256", "value":"896d2e3f1c787d9c6803b7ebc883d5904c9ba74838d6ba6abcac43a9b181144b" } ],
+          "kind":"executable",
+          "url":"https://github.com/OhRobin/dcos-flink-service/blob/roh/cli/container/appmaster/cli/dcos-flink/artifacts/dcos-flink-service-darwin?raw=true"
+        }
+      },
+      "linux":{
+        "x86-64":{
+          "contentHash":[ { "algo":"sha256", "value":"2277f625a5356b85ecfac0ab2fc0eba2334a3994d6e209dc21fc7f80504c2a7b" } ],
+          "kind":"executable",
+          "url":"https://github.com/OhRobin/dcos-flink-service/tree/roh/cli/container/appmaster/cli/dcos-flink/artifacts/dcos-flink-service-linux?raw=true"
+        }
+      },
+      "windows":{
+        "x86-64":{
+          "contentHash":[ { "algo":"sha256", "value":"3a5471aa03af1534b8ee15d485d82011cca7171a0ef47ec2db6d77cbe552bd08" } ],
+          "kind":"executable",
+          "url":"https://github.com/OhRobin/dcos-flink-service/tree/roh/cli/container/appmaster/cli/dcos-flink/artifacts/dcos-flink-service.exe?raw=true"
+        }
       }
     }
   }
-}
 }
