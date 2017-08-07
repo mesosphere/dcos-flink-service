@@ -14,7 +14,7 @@ import (
 func main() {
 	app := cli.New()
 
-	handleListSection(app)
+	handleListJobsSection(app)
 	handleJobSection(app)
 	handleRunSection(app)
 	handleCancelSection(app)
@@ -23,12 +23,12 @@ func main() {
 	kingpin.MustParse(app.Parse(cli.GetArguments()))
 }
 
-//list
-func handleListSection(app *kingpin.Application) {
-	app.Command("list", "List completed and running jobs").Action(runList)
+//list jobs
+func handleListJobsSection(app *kingpin.Application) {
+	app.Command("list", "List completed and running jobs").Action(runListJobs)
 }
 
-func runList(c *kingpin.ParseContext) error {
+func runListJobs(c *kingpin.ParseContext) error {
 	response, err := client.HTTPServiceGet("jobs")
 	if err == nil {
 		client.PrintJSONBytes(response)
@@ -38,6 +38,7 @@ func runList(c *kingpin.ParseContext) error {
 	return nil
 }
 
+//list jars
 func handleJarsSection(app *kingpin.Application) {
 	app.Command("jars", "List uploaded jar files and associated jar ids").Action(runJars)
 }
@@ -53,7 +54,7 @@ func runJars(c *kingpin.ParseContext) error {
 }
 
 
-//info
+//job info
 type InfoHandler struct {
 	info string
 }
@@ -77,7 +78,7 @@ func (cmd *InfoHandler) runInfo(c *kingpin.ParseContext) error {
 	return nil
 }
 
-//job
+
 func handleJobSection(app *kingpin.Application) {
 	cmd := &InfoHandler{}
 	job := app.Command("info", "Summary of job status").Action(cmd.runInfo)
