@@ -18,7 +18,7 @@ func main() {
 	handleJobSection(app)
 	handleRunSection(app)
 	handleCancelSection(app)
-  handleJarsSection(app)
+	handleJarsSection(app)
 
 	kingpin.MustParse(app.Parse(cli.GetArguments()))
 }
