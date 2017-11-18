@@ -34,7 +34,7 @@ function add_if_non_empty() {
 }
 
 function add_mesos_configurations() {
-  add_if_non_empty jobmanager.rpc.address $(hostname -f)       
+  add_if_non_empty jobmanager.rpc.address $(/opt/mesosphere/bin/detect_ip)       
   add_if_non_empty mesos.resourcemanager.framework.role "${FLINK_DISPATCHER_MESOS_ROLE}"
   add_if_non_empty mesos.resourcemanager.framework.principal "${FLINK_DISPATCHER_MESOS_PRINCIPAL}"
   add_if_non_empty mesos.resourcemanager.framework.secret "${FLINK_DISPATCHER_MESOS_SECRET}"
