@@ -27,6 +27,11 @@
            "type":"string",
            "default":"*"
         },
+         "hostattribute":{
+           "description":"Constraints for task placement on Mesos based on agent attributes (DEFAULT: None). Takes a comma-separated list of key:value pairs corresponding to the attributes exposed by the target mesos agents. Example: az:eu-west-1a,series:t2.",
+           "type":"string",
+           "default":""
+        },
         "principal":{
            "description":"The Dispatcher component will register with Mesos with this principal.",
            "type":"string",
