@@ -54,12 +54,7 @@
   "container": {
     "type": "DOCKER",
     "docker": {
-{{#service.scala-2-11}}
-      "image": "{{resource.assets.container.docker.flink-2-11}}",
-{{/service.scala-2-11}}
-{{^service.scala-2-11}}
       "image": "{{resource.assets.container.docker.flink}}",
-{{/service.scala-2-11}}
       "network": "HOST",
 {{#service.user}}
       "parameters": [
