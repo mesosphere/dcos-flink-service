@@ -56,11 +56,6 @@
            "description":"Use -D<KEY>=<VALUE> format to provide any additional Flink configuration options.",
            "type":"string",
            "default":""
-        },
-        "scala-2-11": {
-          "description":"Use flink compiled for scala-2.11 rather than the default scala-2.10",
-          "type":"boolean",
-          "default":true
         }
       }
     },
