@@ -38,6 +38,7 @@ function add_mesos_configurations() {
   add_if_non_empty mesos.resourcemanager.framework.role "${FLINK_DISPATCHER_MESOS_ROLE}"
   add_if_non_empty mesos.resourcemanager.framework.principal "${FLINK_DISPATCHER_MESOS_PRINCIPAL}"
   add_if_non_empty mesos.resourcemanager.framework.secret "${FLINK_DISPATCHER_MESOS_SECRET}"
+  add_if_non_empty mesos.constraints.hard.hostattribute "${FLINK_DISPATCHER_MESOS_HOSTATTRIBUTE}"
 }
 
 function add_ssl_configurations() {
