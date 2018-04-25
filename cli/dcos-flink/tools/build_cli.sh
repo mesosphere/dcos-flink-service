@@ -13,6 +13,7 @@ CLI_EXE_NAME=dcos-flink-service
 # go
 cd ..
 
+go fmt
 go get
 
 CGO_ENABLED=0 GOOS=windows GOARCH=386 go build -ldflags="-s -w" -o $CLI_EXE_NAME".exe"
