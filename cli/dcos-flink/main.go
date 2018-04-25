@@ -6,21 +6,20 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"log"
-	"strings"
-	"mime/multipart"
-	"net/http"
 	"io"
 	"io/ioutil"
+	"log"
+	"mime/multipart"
+	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/mesosphere/dcos-commons/cli"
 	"github.com/mesosphere/dcos-commons/cli/client"
 	"github.com/mesosphere/dcos-commons/cli/config"
 	"gopkg.in/alecthomas/kingpin.v2"
 )
-
 
 func main() {
 	app := cli.New()
@@ -65,7 +64,6 @@ func runJars(c *kingpin.ParseContext) error {
 	return nil
 }
 
-
 //job info
 type InfoHandler struct {
 	info string
@@ -90,13 +88,11 @@ func (cmd *InfoHandler) runInfo(c *kingpin.ParseContext) error {
 	return nil
 }
 
-
 func handleJobSection(app *kingpin.Application) {
 	cmd := &InfoHandler{}
 	job := app.Command("info", "Summary of job status").Action(cmd.runInfo)
 	job.Arg("job id", "Summary of one job").StringVar(&cmd.info)
 }
-
 
 //run
 type RunHandler struct {
@@ -141,74 +137,73 @@ func handleCancelSection(app *kingpin.Application) {
 }
 
 //upload
- type UploadHandler struct {
- 	filename string
- }
- 
- func (cmd *UploadHandler) runUpload(c *kingpin.ParseContext) error {
+type UploadHandler struct {
+	filename string
+}
 
- 	//TODO: x509 auth instead of https to http change
- 	url := client.OptionalCLIConfigValue("core.dcos_url") //TODO this should be a RequiredCLIConfigValue
- 	url = strings.Replace(url,"https://", "http://", 1)
- 	serviceName := config.ServiceName
- 	url = fmt.Sprintf("%s/service/%s/jars/upload", url, serviceName)
- 	
- 	fmt.Println(url)
+func (cmd *UploadHandler) runUpload(c *kingpin.ParseContext) error {
 
+	//TODO: x509 auth instead of https to http change
+	url := client.OptionalCLIConfigValue("core.dcos_url") //TODO this should be a RequiredCLIConfigValue
+	url = strings.Replace(url, "https://", "http://", 1)
+	serviceName := config.ServiceName
+	url = fmt.Sprintf("%s/service/%s/jars/upload", url, serviceName)
 
- 	//create multipart payload
-  payload := &bytes.Buffer{}
-  bodyWriter := multipart.NewWriter(payload)
+	fmt.Println(url)
 
-  fileWriter, err := bodyWriter.CreateFormFile("jarfile", filepath.Base(cmd.filename))
-  if err != nil {
-      fmt.Println("error writing to buffer")
-      return err
-  }
+	//create multipart payload
+	payload := &bytes.Buffer{}
+	bodyWriter := multipart.NewWriter(payload)
 
-   // open file handle
-  fh, err := os.Open(cmd.filename)
-  if err != nil {
-      fmt.Println("error opening file")
-      return err
-  }
+	fileWriter, err := bodyWriter.CreateFormFile("jarfile", filepath.Base(cmd.filename))
+	if err != nil {
+		fmt.Println("error writing to buffer")
+		return err
+	}
 
-  //iocopy
-  _, err = io.Copy(fileWriter, fh)
-  if err != nil {
-      return err
-  }
+	// open file handle
+	fh, err := os.Open(cmd.filename)
+	if err != nil {
+		fmt.Println("error opening file")
+		return err
+	}
 
-  // create request
-  contentType := bodyWriter.FormDataContentType()
-  bodyWriter.Close()
+	//iocopy
+	_, err = io.Copy(fileWriter, fh)
+	if err != nil {
+		return err
+	}
 
- 	req, err := http.NewRequest("POST", url, payload)
-  if err != nil {
-      return err
-  }
-  req.Header.Set("Content-Type", contentType)
-  req.Header.Add("authorization", fmt.Sprintf("token=%s", client.OptionalCLIConfigValue("core.dcos_acs_token")))
+	// create request
+	contentType := bodyWriter.FormDataContentType()
+	bodyWriter.Close()
 
-  res, err := http.DefaultClient.Do(req)
+	req, err := http.NewRequest("POST", url, payload)
+	if err != nil {
+		return err
+	}
+	req.Header.Set("Content-Type", contentType)
+	req.Header.Add("authorization", fmt.Sprintf("token=%s", client.OptionalCLIConfigValue("core.dcos_acs_token")))
 
-  defer res.Body.Close()
-  
-  // handle response
-  resp_body, err := ioutil.ReadAll(res.Body)
-  if err != nil {
-      return err
-  }
-  if res.StatusCode != 200 {
-  	fmt.Println(res.Status)
-  	return errors.New("Upload did not succeed.")
-  }
-  fmt.Println(string(resp_body))
-  return nil
- }
- 
- func handleUploadSection(app *kingpin.Application) {
- 	cmd := &UploadHandler{}
- 	upload := app.Command("upload", "Upload flink jar to run").Action(cmd.runUpload)
- 	upload.Arg("jar file", "jar file to upload").Required().StringVar(&cmd.filename)
- }
+	res, err := http.DefaultClient.Do(req)
+
+	defer res.Body.Close()
+
+	// handle response
+	resp_body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return err
+	}
+	if res.StatusCode != 200 {
+		fmt.Println(res.Status)
+		return errors.New("Upload did not succeed.")
+	}
+	fmt.Println(string(resp_body))
+	return nil
+}
+
+func handleUploadSection(app *kingpin.Application) {
+	cmd := &UploadHandler{}
+	upload := app.Command("upload", "Upload flink jar to run").Action(cmd.runUpload)
+	upload.Arg("jar file", "jar file to upload").Required().StringVar(&cmd.filename)
+}
