@@ -2,7 +2,7 @@
   "assets": {
     "container": {
       "docker": {
-        "flink": "mesosphere/dcos-flink:1.4.2-1.0",
+        "flink": "subhambgh/dcos-flink:1.10.2-1.0",
         "internal": "openjdk:8-jre"
       }
     }
